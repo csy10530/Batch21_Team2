@@ -21,7 +21,7 @@ const App = () => {
      }else{
        setPage(1);
      }
-  }
+  }//123
   return ( 
   <Wrapper>
      <Nav>
