@@ -8,6 +8,7 @@ import Navitem from "./Component/Navitem";
 import Page1 from "./Component/Page1";
 import Page2 from "./Component/Page2";
 import Body from "./Container/Body";
+import Pagination from "./Container/Pagination";
 
 const navValue = ["main", "list", "like", "block"];
 
@@ -33,6 +34,9 @@ const App = () => {
          })
        }
      </Nav>
+
+     <Pagination />
+
      <Body>
        {page === -1 ? (
             <Page1 />
