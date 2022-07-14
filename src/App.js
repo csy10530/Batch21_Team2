@@ -49,8 +49,10 @@ const App = () => {
        {page === -1 ? (
             <HomePage />
        ):(
-          // <Page2 />
+          <>
+          <Page2 />
           <FetchData pageNumber={page} storeFetchedData={storeFetchedData} />
+          </>
        )}
         
         
