@@ -1,8 +1,9 @@
 import React from "react";
+import "./Page1.css";
 
 const Page1 = () => {
     return ( <>
-    <p>this is page one</p>
+    <p className="page1">this is page one</p>
     </> );
 }
  

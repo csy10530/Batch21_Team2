@@ -8,6 +8,7 @@ import Navitem from "./Component/Navitem";
 import Page1 from "./Component/Page1";
 import Page2 from "./Component/Page2";
 import Body from "./Container/Body";
+import Caption from "./Component/Caption";
 
 const navValue = ["main", "list", "like", "block"];
 
@@ -21,9 +22,10 @@ const App = () => {
      }else{
        setPage(1);
      }
-  }//123
+  }
   return ( 
   <Wrapper>
+     <Caption value={"Our top rated movied list"}/>
      <Nav>
        {
          navValue.map((nav) =>{
@@ -32,15 +34,14 @@ const App = () => {
            )
          })
        }
+
      </Nav>
      <Body>
        {page === -1 ? (
             <Page1 />
        ):(
             <Page2 />
-       )}
-        
-        
+       )}  
      </Body>
 
   </Wrapper> 
