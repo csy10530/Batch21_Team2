@@ -1,3 +1,5 @@
+import React from "react";
+
 const PaginationItem = ({pageNum, handlePageNumIncrement, handlePageNumDecrement}) => {
     return (
         <div className={"pagination-item"}>

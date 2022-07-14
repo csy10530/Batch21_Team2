@@ -9,6 +9,7 @@ import HomePage from "./Component/HomePage";
 import Page2 from "./Component/Page2";
 import Body from "./Container/Body";
 import FetchData from "./Component/FetchData"
+import Pagination from "./Container/Pagination";
 
 const navValue = ["main", "list", "like", "block"];
 
@@ -16,9 +17,9 @@ const App = () => {
   let [page, setPage] = useState(1);
 
   // store feched data to movieData. Each time data fetched, one more object in movieData
-  let [movieData, setmovieData] = useState([]);
+  let [movieData, setMovieData] = useState([]);
   let storeFetchedData = function(data){
-    setmovieData(movieData.concat(data));
+    setMovieData(movieData.concat(data));
     // console.log(movieData)
   }
 
@@ -41,12 +42,18 @@ const App = () => {
          })
        }
      </Nav>
+
+     <Pagination />
+
      <Body>
        {page === -1 ? (
             <HomePage />
        ):(
-          // <Page2 />
-          <FetchData pageNumber={page} storeFetchedData={storeFetchedData} />
+           <>
+               <Page2 />
+               <FetchData pageNumber={page} storeFetchedData={storeFetchedData} />
+           </>
+
        )}
         
         
