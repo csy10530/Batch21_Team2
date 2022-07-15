@@ -2,26 +2,15 @@ import React, {useState} from "react";
 import "./Pagination.css";
 import PaginationItem from "../Component/Paginationitem";
 
-const Pagination = ({children}) => {
-    const [pageNum, setPageNum] = useState(1);
-
-    const handlePageNumIncrement = () => {
-        setPageNum(pageNum + 1);
-    }
-
-    const handlePageNumDecrement = () => {
-        if (pageNum === 1) {
-            return;
-        }
-        setPageNum(pageNum - 1);
-    }
+const Pagination = ({page, totalPage, pageIncrement, pageDecrement}) => {
 
     return ( 
         <div className={"pagination"}>
             <PaginationItem
-                pageNum={pageNum}
-                handlePageNumIncrement={handlePageNumIncrement}
-                handlePageNumDecrement={handlePageNumDecrement}
+                page={page}
+                totalPage={totalPage}
+                pageIncrement={pageIncrement}
+                pageDecrement={pageDecrement}
             />
         </div>
      );

@@ -8,7 +8,7 @@ import Navitem from "./Component/Navitem";
 import HomePage from "./Component/HomePage";
 import Page2 from "./Component/Page2";
 import Body from "./Container/Body";
-import {fetchData} from "./Component/fetchData"
+import {fetchData} from "./Component/FetchData";
 import Pagination from "./Container/Pagination";
 
 const navValue = ["main", "list", "like", "block"];
@@ -17,9 +17,11 @@ const App = () => {
   let [page, setPage] = useState(1);
 
   let [moviePage, setMoviePage] = useState(1);
-  // store feched data to movieData. Each time data fetched, one more object in movieData
+  // store fetched data to movieData. Each time data fetched, one more object in movieData
   let [movieData, setMovieData] = useState([]);
-  useEffect(()=>{
+  const [totalPages, setTotalPages] = useState(0);
+
+  useEffect(() => {
     fetchData(moviePage)
       .then((response) => {
         if (!response.ok) {
@@ -29,6 +31,7 @@ const App = () => {
       })
       .then((data) => {
         setMovieData(movieData.concat(data));
+        setTotalPages(data.total_pages);
         console.log(data);
         console.log(moviePage);
       })
@@ -42,6 +45,18 @@ const App = () => {
        setPage(1);
      }
   }
+
+    const handlePageNumIncrement = () => {
+      setMoviePage(moviePage + 1);
+    }
+
+    const handlePageNumDecrement = () => {
+      if (moviePage === 1) {
+          return;
+      }
+      setMoviePage(moviePage - 1);
+    }
+
   return ( 
   <Wrapper>
      <Nav>
@@ -53,10 +68,8 @@ const App = () => {
          })
        }
      </Nav>
-     {/* this is to test data change with page number */}
-     <input type="number" onChange = {(e)=>setMoviePage(e.target.value)}></input>
      
-     <Pagination page={moviePage} />
+     <Pagination page={moviePage} totalPage={totalPages} pageIncrement={handlePageNumIncrement} pageDecrement={handlePageNumDecrement}/>
      
      <Body>
        {page === -1 ? (
@@ -67,8 +80,6 @@ const App = () => {
            </>
 
        )}
-        
-        
      </Body>
 
   </Wrapper> 
