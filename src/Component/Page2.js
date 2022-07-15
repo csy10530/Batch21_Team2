@@ -3,7 +3,7 @@ import Card from "./Card.js"
 
 const Page2 = () => {
     return ( <>
-    <p>this is page two</p>
+    <p>This is movie list</p>
     <Card></Card>
     </> );
 }
