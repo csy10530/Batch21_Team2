@@ -6,11 +6,11 @@ import Nav from "./Container/Nav";
 import Navitem from "./Component/Navitem";
 
 import HomePage from "./Component/HomePage";
-import Page2 from "./Component/Page2";
+import CardBox from "./Component/CardBox";
 import Body from "./Container/Body";
 
 import Caption from "./Component/Caption";
-import FetchData from "./Component/FetchData"
+import {fetchData} from "./Component/FetchData"
 
 import Pagination from "./Container/Pagination";
 
@@ -24,6 +24,9 @@ const App = () => {
     let [movieData, setMovieData] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
 
+    const getNewData = (newData) =>{
+        setMovieData(newData);
+    }
 
     useEffect(() => {
         fetchData(moviePage)
@@ -33,16 +36,19 @@ const App = () => {
                 }
                 return response.json();
             })
+
             .then((data) => {
+                
                 data.results.forEach(item => {
                     item.like = false;
                     item.block = false;
                     return item;
                 })
-                setMovieData(movieData.concat(data));
+                setMovieData(movieData.concat(data.results));
                 setTotalPages(data.total_pages);
+                console.log(movieData);
             })
-    }, [moviePage])
+    }, [moviePage, movieData])
 
 
     const navHandler = (e) => {
@@ -68,6 +74,7 @@ const App = () => {
 
     return (
         <Wrapper>
+            <Caption value={"This is our top movie list"}/>
             <Nav>
                 {
                     navValue.map((nav) => {
@@ -86,7 +93,7 @@ const App = () => {
                     <HomePage/>
                 ) : (
                     <>
-                        <Page2/>
+                        <CardBox movieData={movieData} getNewData={getNewData}/>
                     </>
 
                 )}
