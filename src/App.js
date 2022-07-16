@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import "./App.css";
 
 import Wrapper from "./Container/Wrapper";
@@ -9,7 +9,7 @@ import HomePage from "./Component/HomePage";
 import CardBox from "./Component/CardBox";
 import Body from "./Container/Body";
 
-import {fetchData} from "./Component/FetchData";
+import {fetchData } from "./Component/FetchData";
 import SortBtns from "./Component/SortBtns"
 
 
@@ -25,10 +25,10 @@ const App = () => {
     let [page, setPage] = useState(1);
 
     let [moviePage, setMoviePage] = useState(1);
-    // store fetched data to movieData. Each time data fetched, one more object in movieData
+    let [storedMovieData, setStoredMovieData] = useState([]);
+    // // store fetched data to movieData. Each time data fetched, one more object in movieData
     let [movieData, setMovieData] = useState([]);
-    const [totalPages, setTotalPages] = useState(0);
-
+    let [totalPages, setTotalPages] = useState(0);
 
     const [likedMovies, setLikedMovies] = useState([]);
     const [blockedMovies, setBlockedMovies] = useState([]);
@@ -36,28 +36,33 @@ const App = () => {
     const getNewData = (newData) =>{
         setMovieData(newData);
     }
-
+    
     useEffect(() => {
-        fetchData(moviePage)
+        console.log(storedMovieData)
+        console.log(movieData)
+        console.log(moviePage)
+        if (moviePage <= storedMovieData.length) {
+            setMovieData(storedMovieData[moviePage-1].results)
+        } else {
+            fetchData(moviePage)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`HTTP error: ${response.status}`);
                 }
                 return response.json();
             })
-
             .then((data) => {
-                
                 data.results.forEach(item => {
                     item.like = false;
                     item.block = false;
                     return item;
                 })
-                setMovieData(movieData.concat(data.results));
-                setTotalPages(data.total_pages);
+                setStoredMovieData(storedMovieData.concat(data));
+                setMovieData(data.results)
+                setTotalPages(data.total_pages)
             })
+        } 
     }, [moviePage]);
-
 
     const navHandler = (e) => {
         let value = e.target.innerHTML;
@@ -71,7 +76,6 @@ const App = () => {
             setPage(-3);
         }
     }
-
 
     const handlePageNumIncrement = () => {
         setMoviePage(moviePage + 1);
@@ -96,12 +100,12 @@ const App = () => {
                     })
                 }
             </Nav>
-
+            
             <Pagination moviePage={moviePage}
                         totalPage={totalPages}
                         pageIncrement={handlePageNumIncrement}
                         pageDecrement={handlePageNumDecrement}/>
-            <SortBtns movieData={movieData[0]}/>
+            <SortBtns movieData={movieData}/>
             <Body>
                 {page === -1 ? <HomePage/> :
                     (page === -2 ? <LikedMoviePage likedMovies={likedMovies}/> :
