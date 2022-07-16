@@ -2,12 +2,12 @@ import React, {useState} from "react";
 import "./Pagination.css";
 import PaginationItem from "../Component/Paginationitem";
 
-const Pagination = ({page, totalPage, pageIncrement, pageDecrement}) => {
+const Pagination = ({moviePage, totalPage, pageIncrement, pageDecrement}) => {
 
     return ( 
         <div className={"pagination"}>
             <PaginationItem
-                page={page}
+                moviePage={moviePage}
                 totalPage={totalPage}
                 pageIncrement={pageIncrement}
                 pageDecrement={pageDecrement}

@@ -24,7 +24,7 @@ const Card = ({movieData, getNewData}) => {
                   <div className="movie">
                        <div className="poster">
                           <img src={picUrl + one.poster_path} alt=""/>
-                          <div class="overview">
+                          <div className="overview">
                           <p>Overview:</p>
                           <p>{one.overview}</p>
                        </div>
