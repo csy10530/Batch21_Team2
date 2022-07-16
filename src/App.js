@@ -26,14 +26,13 @@ const App = () => {
     let [movieData, setMovieData] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
 
-<<<<<<< HEAD
+
     const [likedMovies, setLikedMovies] = useState([]);
     const [blockedMovies, setBlockedMovies] = useState([]);
-=======
+
     const getNewData = (newData) =>{
         setMovieData(newData);
     }
->>>>>>> ea27592301839a51ef7ff3017a83f74041275990
 
     useEffect(() => {
         fetchData(moviePage)
@@ -53,14 +52,9 @@ const App = () => {
                 })
                 setMovieData(movieData.concat(data.results));
                 setTotalPages(data.total_pages);
-                console.log(movieData);
             })
-<<<<<<< HEAD
     }, [moviePage]);
-=======
-    }, [])
 
->>>>>>> ea27592301839a51ef7ff3017a83f74041275990
 
     const navHandler = (e) => {
         let value = e.target.innerHTML;
@@ -106,20 +100,11 @@ const App = () => {
                         pageDecrement={handlePageNumDecrement}/>
 
             <Body>
-<<<<<<< HEAD
                 {page === -1 ? <HomePage/> :
                     (page === -2 ? <LikedMoviePage likedMovies={likedMovies}/> :
-                        (page === -3 ? <BlockedMoviePage blockedMovies={blockedMovies}/> : <Page2/>))}
-=======
-                {page === -1 ? (
-                    <HomePage/>
-                ) : (
-                    <>
-                        <CardBox movieData={movieData} getNewData={getNewData}/>
-                    </>
+                        (page === -3 ? <BlockedMoviePage blockedMovies={blockedMovies}/> :
+                            <CardBox movieData={movieData} getNewData={getNewData}/>))}
 
-                )}
->>>>>>> ea27592301839a51ef7ff3017a83f74041275990
             </Body>
 
         </Wrapper>
