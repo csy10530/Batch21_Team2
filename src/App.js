@@ -9,6 +9,7 @@ import HomePage from "./Component/HomePage";
 import Page2 from "./Component/Page2";
 import Body from "./Container/Body";
 import {fetchData} from "./Component/FetchData";
+import SortBtns from "./Component/SortBtns"
 import Pagination from "./Container/Pagination";
 
 const navValue = ["main", "list", "like", "block"];
@@ -74,7 +75,7 @@ const App = () => {
 
             <Pagination page={moviePage} totalPage={totalPages} pageIncrement={handlePageNumIncrement}
                         pageDecrement={handlePageNumDecrement}/>
-
+            <SortBtns movieData={movieData[0]}/>
             <Body>
                 {page === -1 ? (
                     <HomePage/>
