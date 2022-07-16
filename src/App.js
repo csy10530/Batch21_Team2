@@ -6,9 +6,12 @@ import Nav from "./Container/Nav";
 import Navitem from "./Component/Navitem";
 
 import HomePage from "./Component/HomePage";
-import Page2 from "./Component/Page2";
+import CardBox from "./Component/CardBox";
 import Body from "./Container/Body";
-import {fetchData} from "./Component/FetchData";
+
+import Caption from "./Component/Caption";
+import {fetchData} from "./Component/FetchData"
+
 import Pagination from "./Container/Pagination";
 import LikedMoviePage from "./Component/LikedMoviePage";
 import BlockedMoviePage from "./Component/BlockedMoviePage";
@@ -23,8 +26,14 @@ const App = () => {
     let [movieData, setMovieData] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
 
+<<<<<<< HEAD
     const [likedMovies, setLikedMovies] = useState([]);
     const [blockedMovies, setBlockedMovies] = useState([]);
+=======
+    const getNewData = (newData) =>{
+        setMovieData(newData);
+    }
+>>>>>>> ea27592301839a51ef7ff3017a83f74041275990
 
     useEffect(() => {
         fetchData(moviePage)
@@ -34,16 +43,24 @@ const App = () => {
                 }
                 return response.json();
             })
+
             .then((data) => {
+                
                 data.results.forEach(item => {
                     item.like = false;
                     item.block = false;
                     return item;
                 })
-                setMovieData(movieData.concat(data));
+                setMovieData(movieData.concat(data.results));
                 setTotalPages(data.total_pages);
+                console.log(movieData);
             })
+<<<<<<< HEAD
     }, [moviePage]);
+=======
+    }, [])
+
+>>>>>>> ea27592301839a51ef7ff3017a83f74041275990
 
     const navHandler = (e) => {
         let value = e.target.innerHTML;
@@ -58,6 +75,7 @@ const App = () => {
         }
     }
 
+
     const handlePageNumIncrement = () => {
         setMoviePage(moviePage + 1);
     }
@@ -71,6 +89,7 @@ const App = () => {
 
     return (
         <Wrapper>
+            <Caption value={"This is our top movie list"}/>
             <Nav>
                 {
                     navValue.map((nav) => {
@@ -87,9 +106,20 @@ const App = () => {
                         pageDecrement={handlePageNumDecrement}/>
 
             <Body>
+<<<<<<< HEAD
                 {page === -1 ? <HomePage/> :
                     (page === -2 ? <LikedMoviePage likedMovies={likedMovies}/> :
                         (page === -3 ? <BlockedMoviePage blockedMovies={blockedMovies}/> : <Page2/>))}
+=======
+                {page === -1 ? (
+                    <HomePage/>
+                ) : (
+                    <>
+                        <CardBox movieData={movieData} getNewData={getNewData}/>
+                    </>
+
+                )}
+>>>>>>> ea27592301839a51ef7ff3017a83f74041275990
             </Body>
 
         </Wrapper>
