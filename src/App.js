@@ -48,7 +48,7 @@ const App = () => {
                 setTotalPages(data.total_pages);
                 console.log(movieData);
             })
-    }, [moviePage, movieData])
+    }, [])
 
 
     const navHandler = (e) => {
