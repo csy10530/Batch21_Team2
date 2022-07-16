@@ -9,8 +9,11 @@ import HomePage from "./Component/HomePage";
 import CardBox from "./Component/CardBox";
 import Body from "./Container/Body";
 
+import {fetchData} from "./Component/FetchData";
+import SortBtns from "./Component/SortBtns"
+
+
 import Caption from "./Component/Caption";
-import {fetchData} from "./Component/FetchData"
 
 import Pagination from "./Container/Pagination";
 import LikedMoviePage from "./Component/LikedMoviePage";
@@ -98,7 +101,7 @@ const App = () => {
                         totalPage={totalPages}
                         pageIncrement={handlePageNumIncrement}
                         pageDecrement={handlePageNumDecrement}/>
-
+            <SortBtns movieData={movieData[0]}/>
             <Body>
                 {page === -1 ? <HomePage/> :
                     (page === -2 ? <LikedMoviePage likedMovies={likedMovies}/> :
