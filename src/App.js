@@ -6,11 +6,18 @@ import Nav from "./Container/Nav";
 import Navitem from "./Component/Navitem";
 
 import HomePage from "./Component/HomePage";
-import Page2 from "./Component/Page2";
+import CardBox from "./Component/CardBox";
 import Body from "./Container/Body";
+
 import {fetchData} from "./Component/FetchData";
 import SortBtns from "./Component/SortBtns"
+
+
+import Caption from "./Component/Caption";
+
 import Pagination from "./Container/Pagination";
+import LikedMoviePage from "./Component/LikedMoviePage";
+import BlockedMoviePage from "./Component/BlockedMoviePage";
 
 const navValue = ["main", "list", "like", "block"];
 
@@ -22,6 +29,14 @@ const App = () => {
     let [movieData, setMovieData] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
 
+
+    const [likedMovies, setLikedMovies] = useState([]);
+    const [blockedMovies, setBlockedMovies] = useState([]);
+
+    const getNewData = (newData) =>{
+        setMovieData(newData);
+    }
+
     useEffect(() => {
         fetchData(moviePage)
             .then((response) => {
@@ -30,25 +45,33 @@ const App = () => {
                 }
                 return response.json();
             })
+
             .then((data) => {
+                
                 data.results.forEach(item => {
                     item.like = false;
                     item.block = false;
                     return item;
                 })
-                setMovieData(movieData.concat(data));
+                setMovieData(movieData.concat(data.results));
                 setTotalPages(data.total_pages);
             })
-    }, [moviePage])
+    }, [moviePage]);
+
 
     const navHandler = (e) => {
         let value = e.target.innerHTML;
         if (value === "main") {
             setPage(-1);
-        } else {
+        } else if (value === "list") {
             setPage(1);
+        } else if (value === "like") {
+            setPage(-2);
+        } else if (value === "block") {
+            setPage(-3);
         }
     }
+
 
     const handlePageNumIncrement = () => {
         setMoviePage(moviePage + 1);
@@ -63,6 +86,7 @@ const App = () => {
 
     return (
         <Wrapper>
+            <Caption value={"This is our top movie list"}/>
             <Nav>
                 {
                     navValue.map((nav) => {
@@ -73,22 +97,20 @@ const App = () => {
                 }
             </Nav>
 
-            <Pagination page={moviePage} totalPage={totalPages} pageIncrement={handlePageNumIncrement}
+            <Pagination moviePage={moviePage}
+                        totalPage={totalPages}
+                        pageIncrement={handlePageNumIncrement}
                         pageDecrement={handlePageNumDecrement}/>
             <SortBtns movieData={movieData[0]}/>
             <Body>
-                {page === -1 ? (
-                    <HomePage/>
-                ) : (
-                    <>
-                        <Page2/>
-                    </>
+                {page === -1 ? <HomePage/> :
+                    (page === -2 ? <LikedMoviePage likedMovies={likedMovies}/> :
+                        (page === -3 ? <BlockedMoviePage blockedMovies={blockedMovies}/> :
+                            <CardBox movieData={movieData} getNewData={getNewData}/>))}
 
-                )}
             </Body>
 
         </Wrapper>
-
     );
 }
 
