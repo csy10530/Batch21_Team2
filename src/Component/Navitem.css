@@ -1,9 +1,10 @@
 .navitem{
     padding:10px;
-    width:140px;
-    height:60px;
+    width:160px;
+    height:48px;
     text-align: center;
-    color:white;
-    background-color:blue;
-    border-radius: 10px;;
+    color:#DBA506;
+    font-weight: bolder;
+    border-bottom: 1px solid lightgrey;
+    padding-bottom: 5px;
 }

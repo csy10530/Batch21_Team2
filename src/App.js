@@ -19,7 +19,7 @@ import Pagination from "./Container/Pagination";
 import LikedMoviePage from "./Component/LikedMoviePage";
 import BlockedMoviePage from "./Component/BlockedMoviePage";
 
-const navValue = ["main", "list", "like", "block"];
+const navValue = ["Home Page", "Movie List", "My Like", "My Block"];
 
 const App = () => {
     let [page, setPage] = useState(1);
@@ -86,7 +86,7 @@ const App = () => {
 
     return (
         <Wrapper>
-            <Caption value={"This is our top movie list"}/>
+            <Caption value={"Movie View"}/>
             <Nav>
                 {
                     navValue.map((nav) => {

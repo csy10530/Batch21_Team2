@@ -37,9 +37,9 @@ const Card = ({movieData, getNewData}) => {
                        }
                        <button id="like" onClick={()=>likeHandler(one)}>Like</button>
                        <button id="block" onClick={() => blockHandler(one)}>Block</button>
-                       <h3>{one.title}</h3>
-                       <div className="date">{one.release_date}</div>
-                       <div className="other">{one.vote_count}|{one.vote_average}</div>
+                       <div className="title">{one.title}</div>
+                       <div className="date">Release Date: {one.release_date}</div>
+                       <div className="other">Vote: {one.vote_count} | Average: {one.vote_average}</div>
                   </div>
                   </div>
                 </main>
