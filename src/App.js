@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import "./App.css";
 
 import Wrapper from "./Container/Wrapper";
@@ -9,7 +9,7 @@ import HomePage from "./Component/HomePage";
 import CardBox from "./Component/CardBox";
 import Body from "./Container/Body";
 
-import {fetchData} from "./Component/FetchData";
+import {fetchData } from "./Component/FetchData";
 import SortBtns from "./Component/SortBtns"
 
 
@@ -25,7 +25,8 @@ const App = () => {
     let [page, setPage] = useState(1);
 
     let [moviePage, setMoviePage] = useState(1);
-    // store fetched data to movieData. Each time data fetched, one more object in movieData
+    let [storedMovieData, setStoredMovieData] = useState([]);
+    // // store fetched data to movieData. Each time data fetched, one more object in movieData
     let [movieData, setMovieData] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
 
@@ -33,38 +34,48 @@ const App = () => {
     const [blockedMovies, setBlockedMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
 
+
     const getNewData = (newData, flag) =>{
         if (flag === "like") {
             setLikedMovies(newData);
         } else if (flag === "block") {
             setBlockedMovies(newData);
         }
-        setFilteredMovies(movieData.filter(data => !data.block));
-    }
 
+        const newList = [];
+        for (let i = 0; i < storedMovieData.length; i++) {
+            storedMovieData[i].results.forEach(data => newList.push(data));
+        }
+
+        setFilteredMovies(newList.filter(data => !data.block));
+    }
+    
     useEffect(() => {
-        fetchData(moviePage)
+        if (moviePage <= storedMovieData.length) {
+            setMovieData(storedMovieData[moviePage - 1].results);
+            setFilteredMovies(storedMovieData[moviePage - 1].results);
+        } else {
+            fetchData(moviePage)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`HTTP error: ${response.status}`);
                 }
                 return response.json();
             })
-
             .then((data) => {
                 data.results.forEach(item => {
                     item.like = false;
                     item.block = false;
                     return item;
                 })
-                setMovieData(movieData.concat(data.results));
 
-                setFilteredMovies(filteredMovies.concat(data.results));
-
-                setTotalPages(data.total_pages);
+                setStoredMovieData(storedMovieData.concat(data));
+                setFilteredMovies(data.results);
+                setMovieData(data.results)
+                setTotalPages(data.total_pages)
             })
+        } 
     }, [moviePage]);
-
 
     const navHandler = (e) => {
         let value = e.target.innerHTML;
@@ -110,31 +121,33 @@ const App = () => {
                     })
                 }
             </Nav>
-
+            
             <Pagination moviePage={moviePage}
                         totalPage={totalPages}
                         pageIncrement={handlePageNumIncrement}
                         pageDecrement={handlePageNumDecrement}/>
 
-            <SortBtns movieData={movieData[0]}/>
-
+            <SortBtns movieData={movieData}/>
             <Body>
                 {page === -1 ? <HomePage/> :
                     (page === -2 ? <LikedMoviePage
                             movieData={likedMovies}
                             getNewData={getNewData}
                             filterLikeList={filterLikeList}
-                            filterBlockList={filterBlockList}/> :
+                            filterBlockList={filterBlockList}
+                            page={page}/> :
                         (page === -3 ? <BlockedMoviePage
                                 movieData={blockedMovies}
                                 getNewData={getNewData}
                                 filterLikeList={filterLikeList}
-                                filterBlockList={filterBlockList}/> :
+                                filterBlockList={filterBlockList}
+                                page={page}/> :
                             <CardBox
                                 movieData={filteredMovies}
                                 getNewData={getNewData}
                                 filterLikeList={filterLikeList}
-                                filterBlockList={filterBlockList}/>))}
+                                filterBlockList={filterBlockList}
+                                page={page}/>))}
 
             </Body>
         </Wrapper>

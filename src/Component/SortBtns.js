@@ -18,7 +18,7 @@ export default function SortBtns({movieData}){
         setSortReleaseD(0);
         setSortTitle(sortTitle === 0 ? 1 : (sortTitle === 1 ? -1 : 1));
         
-        let sortedMovieData = movieData.results.sort((a, b) => (sortTitle * a.title.localeCompare(b.title)));
+        let sortedMovieData = movieData.sort((a, b) => (sortTitle * a.title.localeCompare(b.title)));
         listShown = sortedMovieData;
     }
 
@@ -28,7 +28,7 @@ export default function SortBtns({movieData}){
         setSortReleaseD(0);
         setSortVoteC(sortVoteC === 0 ? 1 : (sortVoteC===1 ? -1 : 1));
 
-        let sortedMovieData = movieData.results.sort((a,b)=> (sortVoteC*(a.vote_count-b.vote_count)>0 ? 1 : -1));
+        let sortedMovieData = movieData.sort((a,b)=> (sortVoteC*(a.vote_count-b.vote_count)>0 ? 1 : -1));
         listShown = sortedMovieData;
     }
     function  handleSortVoteA() {
@@ -37,7 +37,7 @@ export default function SortBtns({movieData}){
         setSortReleaseD(0);
         setSortVoteA(sortVoteA === 0 ? 1 : (sortVoteA===1 ? -1 : 1));
 
-        let sortedMovieData = movieData.results.sort((a,b)=> (sortVoteA*(a.vote_average-b.vote_average)>0 ? 1 : -1));
+        let sortedMovieData = movieData.sort((a,b)=> (sortVoteA*(a.vote_average-b.vote_average)>0 ? 1 : -1));
         listShown = sortedMovieData;
     }
     function handleSortReleaseD() {
@@ -46,7 +46,7 @@ export default function SortBtns({movieData}){
         setSortVoteA(0);
         setSortReleaseD(sortReleaseD === 0 ? 1 : (sortReleaseD === 1 ? -1 : 1));
 
-        let sortedMovieData = movieData.results.sort((a, b) => (sortReleaseD * a.release_date.localeCompare(b.release_date)));
+        let sortedMovieData = movieData.sort((a, b) => (sortReleaseD * a.release_date.localeCompare(b.release_date)));
         listShown = sortedMovieData;
     }
     

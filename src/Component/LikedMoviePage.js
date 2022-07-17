@@ -2,12 +2,13 @@ import React from "react";
 import CardBox from "./CardBox";
 
 
-const LikedMoviePage = ({movieData, getNewData, filterLikeList, filterBlockList}) => {
+const LikedMoviePage = ({movieData, getNewData, filterLikeList, filterBlockList, page}) => {
     return (
         <CardBox getNewData={getNewData}
                  movieData={movieData}
                  filterLikeList={filterLikeList}
-                 filterBlockList={filterBlockList}/>
+                 filterBlockList={filterBlockList}
+                 page={page}/>
     )
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import "./Card.css";
 
-const Card = ({movieData, getNewData, filterLikeList, filterBlockList}) => {
+const Card = ({movieData, getNewData, filterLikeList, filterBlockList, page}) => {
     const picUrl = "http://image.tmdb.org/t/p/w500/";
 
     const likeHandler = (eachData) =>{
@@ -26,7 +26,7 @@ const Card = ({movieData, getNewData, filterLikeList, filterBlockList}) => {
         .map((one, id) =>{
             return(
                 <>
-                <main id="main" key={id}>
+                <main id="main" key={id}  style={{display: page === -3 ? "flex" : (one.block ? "none" : "flex")}}>
                   <div className="movie">
                        <div className="poster">
                           <img src={picUrl + one.poster_path} alt=""/>
