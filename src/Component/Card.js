@@ -1,17 +1,23 @@
 import React from "react";
 import "./Card.css";
 
-const Card = ({movieData, getNewData}) => {
+const Card = ({movieData, getNewData, filterLikeList, filterBlockList, page}) => {
     const picUrl = "http://image.tmdb.org/t/p/w500/";
 
     const likeHandler = (eachData) =>{
-        eachData.like = !eachData.like;
-        getNewData(movieData);
+        eachData.like = true;
+        eachData.block = false;
+        getNewData(movieData, "like");
+        filterLikeList();
+        filterBlockList();
     }
 
     const blockHandler = (eachData) =>{
-        eachData.block = !eachData.block;
-        getNewData(movieData);
+        eachData.block = true;
+        eachData.like = false;
+        getNewData(movieData, "block");
+        filterLikeList();
+        filterBlockList();
     }
 
     return ( <>  
@@ -20,7 +26,7 @@ const Card = ({movieData, getNewData}) => {
         .map((one, id) =>{
             return(
                 <>
-                <main id="main" key={id}>
+                <main id="main" key={id}  style={{display: page === -3 ? "flex" : (one.block ? "none" : "flex")}}>
                   <div className="movie">
                        <div className="poster">
                           <img src={picUrl + one.poster_path} alt=""/>

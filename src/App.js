@@ -28,21 +28,32 @@ const App = () => {
     let [storedMovieData, setStoredMovieData] = useState([]);
     // // store fetched data to movieData. Each time data fetched, one more object in movieData
     let [movieData, setMovieData] = useState([]);
-    let [totalPages, setTotalPages] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
 
     const [likedMovies, setLikedMovies] = useState([]);
     const [blockedMovies, setBlockedMovies] = useState([]);
+    const [filteredMovies, setFilteredMovies] = useState([]);
 
-    const getNewData = (newData) =>{
-        setMovieData(newData);
+
+    const getNewData = (newData, flag) =>{
+        if (flag === "like") {
+            setLikedMovies(newData);
+        } else if (flag === "block") {
+            setBlockedMovies(newData);
+        }
+
+        const newList = [];
+        for (let i = 0; i < storedMovieData.length; i++) {
+            storedMovieData[i].results.forEach(data => newList.push(data));
+        }
+
+        setFilteredMovies(newList.filter(data => !data.block));
     }
     
     useEffect(() => {
-        console.log(storedMovieData)
-        console.log(movieData)
-        console.log(moviePage)
         if (moviePage <= storedMovieData.length) {
-            setMovieData(storedMovieData[moviePage-1].results)
+            setMovieData(storedMovieData[moviePage - 1].results);
+            setFilteredMovies(storedMovieData[moviePage - 1].results);
         } else {
             fetchData(moviePage)
             .then((response) => {
@@ -57,7 +68,9 @@ const App = () => {
                     item.block = false;
                     return item;
                 })
+
                 setStoredMovieData(storedMovieData.concat(data));
+                setFilteredMovies(data.results);
                 setMovieData(data.results)
                 setTotalPages(data.total_pages)
             })
@@ -88,6 +101,14 @@ const App = () => {
         setMoviePage(moviePage - 1);
     }
 
+    const filterLikeList = () => {
+        setLikedMovies(movieData.filter(movie => movie.like));
+    }
+
+    const filterBlockList = () => {
+        setBlockedMovies(movieData.filter(movie => movie.block));
+    }
+
     return (
         <Wrapper>
             <Caption value={"This is our top movie list"}/>
@@ -105,15 +126,30 @@ const App = () => {
                         totalPage={totalPages}
                         pageIncrement={handlePageNumIncrement}
                         pageDecrement={handlePageNumDecrement}/>
+
             <SortBtns movieData={movieData}/>
             <Body>
                 {page === -1 ? <HomePage/> :
-                    (page === -2 ? <LikedMoviePage likedMovies={likedMovies}/> :
-                        (page === -3 ? <BlockedMoviePage blockedMovies={blockedMovies}/> :
-                            <CardBox movieData={movieData} getNewData={getNewData}/>))}
+                    (page === -2 ? <LikedMoviePage
+                            movieData={likedMovies}
+                            getNewData={getNewData}
+                            filterLikeList={filterLikeList}
+                            filterBlockList={filterBlockList}
+                            page={page}/> :
+                        (page === -3 ? <BlockedMoviePage
+                                movieData={blockedMovies}
+                                getNewData={getNewData}
+                                filterLikeList={filterLikeList}
+                                filterBlockList={filterBlockList}
+                                page={page}/> :
+                            <CardBox
+                                movieData={filteredMovies}
+                                getNewData={getNewData}
+                                filterLikeList={filterLikeList}
+                                filterBlockList={filterBlockList}
+                                page={page}/>))}
 
             </Body>
-
         </Wrapper>
     );
 }
