@@ -37,6 +37,10 @@ const App = () => {
         setMovieData(newData);
     }
 
+    const getSortedData = (sortedData) =>{
+        setMovieData(sortedData);
+    }
+
     useEffect(() => {
         fetchData(moviePage)
             .then((response) => {
@@ -55,6 +59,7 @@ const App = () => {
                 })
                 setMovieData(movieData.concat(data.results));
                 setTotalPages(data.total_pages);
+                console.log(data.results);
             })
     }, [moviePage]);
 
@@ -101,7 +106,7 @@ const App = () => {
                         totalPage={totalPages}
                         pageIncrement={handlePageNumIncrement}
                         pageDecrement={handlePageNumDecrement}/>
-            <SortBtns movieData={movieData[0]}/>
+            <SortBtns movieData={movieData} getSortedData={getSortedData}/>
             <Body>
                 {page === -1 ? <HomePage/> :
                     (page === -2 ? <LikedMoviePage likedMovies={likedMovies}/> :

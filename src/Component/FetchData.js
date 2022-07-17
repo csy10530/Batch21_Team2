@@ -12,3 +12,4 @@ export function fetchData(pageNumber) {
 
   return fetch(url)
 }
+
