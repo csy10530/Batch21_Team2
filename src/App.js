@@ -79,13 +79,13 @@ const App = () => {
 
     const navHandler = (e) => {
         let value = e.target.innerHTML;
-        if (value === "main") {
+        if (value === "Home Page") {
             setPage(-1);
-        } else if (value === "list") {
+        } else if (value === "Movie List") {
             setPage(1);
-        } else if (value === "like") {
+        } else if (value === "My Like") {
             setPage(-2);
-        } else if (value === "block") {
+        } else if (value === "My Block") {
             setPage(-3);
         }
     }

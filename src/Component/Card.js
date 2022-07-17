@@ -38,7 +38,7 @@ const Card = ({movieData, getNewData, filterLikeList, filterBlockList, page}) =>
                   <div className="movie-info">
                        {
                         one.like === true ? (
-                                <div className="badger">1</div>
+                                <div className="badger"></div>
                         ) : null      
                        }
                        <button id="like" onClick={()=>likeHandler(one)}>Like</button>
