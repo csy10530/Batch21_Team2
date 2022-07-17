@@ -1,19 +1,13 @@
-import Wrapper from "../Container/Wrapper";
-
-
-import Body from "../Container/Body";
 import React from "react";
+import CardBox from "./CardBox";
 
 
-const LikedMoviePage = ({likedMovies}) => {
+const LikedMoviePage = ({movieData, getNewData, filterLikeList, filterBlockList}) => {
     return (
-        <Wrapper>
-            <Body>
-                    <React.Fragment>
-                        {/*<Page2/>*/}
-                    </React.Fragment>
-            </Body>
-        </Wrapper>
+        <CardBox getNewData={getNewData}
+                 movieData={movieData}
+                 filterLikeList={filterLikeList}
+                 filterBlockList={filterBlockList}/>
     )
 }
 
