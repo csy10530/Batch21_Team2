@@ -36,7 +36,7 @@ const App = () => {
 
     const getNewData = (eachData, flag) =>{
         // update clicked data in our stored movie data
-        let updatedData = storedMovieData[moviePage-1].results.filter((data)=>{
+        let updatedData = storedMovieData[eachData.page-1].results.filter((data)=>{
             if (data.id === eachData.id) {
                 return eachData
             } else {
@@ -86,6 +86,7 @@ const App = () => {
                 data.results.forEach(item => {
                     item.like = false;
                     item.block = false;
+                    item.page = moviePage;
                     return item;
                 })
                 setStoredMovieData(storedMovieData.concat(data));
