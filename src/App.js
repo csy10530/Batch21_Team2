@@ -34,9 +34,9 @@ const App = () => {
     const [filteredMovies, setFilteredMovies] = useState([]);
 
 
-    const getNewData = (eachData, flag) =>{
+    const getNewData = (eachData, flag) => {
         // update clicked data in our stored movie data
-        storedMovieData[moviePage-1].results = storedMovieData[moviePage - 1].results.filter((data) => {
+        storedMovieData[moviePage - 1].results = storedMovieData[moviePage - 1].results.filter((data) => {
             if (data.id === eachData.id) {
                 return eachData
             } else {
@@ -47,20 +47,20 @@ const App = () => {
         if (flag === "like") {
             setLikedMovies(likedMovies.concat(eachData));
             // Update clicked like movie in blocked list
-            let likeItemInBlocked = blockedMovies.filter((data)=> {
+            let likeItemInBlocked = blockedMovies.filter((data) => {
                 if (data.id !== eachData.id) {
                     return data
-                } 
+                }
             })
             setBlockedMovies(likeItemInBlocked);
         } else if (flag === "block") {
             setBlockedMovies(blockedMovies.concat(eachData));
             setFilteredMovies(filteredMovies.concat(eachData));
             // update cliked block movie in liked list
-            let blockItemInLiked = likedMovies.filter((data)=> {
+            let blockItemInLiked = likedMovies.filter((data) => {
                 if (data.id !== eachData.id) {
                     return data
-                } 
+                }
             })
             setLikedMovies(blockItemInLiked);
         }
@@ -73,23 +73,23 @@ const App = () => {
             setFilteredMovies(storedMovieData[moviePage - 1].results);
         } else {
             fetchData(moviePage)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((data) => {
-                data.results.forEach(item => {
-                    item.like = false;
-                    item.block = false;
-                    return item;
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error: ${response.status}`);
+                    }
+                    return response.json();
                 })
-                setStoredMovieData(storedMovieData.concat(data));
-                setFilteredMovies(data.results);
-                setTotalPages(data.total_pages);
-            })
-        } 
+                .then((data) => {
+                    data.results.forEach(item => {
+                        item.like = false;
+                        item.block = false;
+                        return item;
+                    })
+                    setStoredMovieData(storedMovieData.concat(data));
+                    setFilteredMovies(data.results);
+                    setTotalPages(data.total_pages);
+                })
+        }
     }, [moviePage, sort]);
 
     const navHandler = (e) => {
@@ -129,18 +129,19 @@ const App = () => {
                 }
             </Nav>
 
-            
+
             {
                 page === 1 ? (
                     <>
-                    <Pagination moviePage={moviePage}
-                        totalPage={totalPages}
-                        pageIncrement={handlePageNumIncrement}
-                        pageDecrement={handlePageNumDecrement}/>
-                    <SortBtns setSort={setSort} filteredMovies={filteredMovies} moviePage={moviePage} setFilteredMovies={setFilteredMovies}/>
+                        <Pagination moviePage={moviePage}
+                                    totalPage={totalPages}
+                                    pageIncrement={handlePageNumIncrement}
+                                    pageDecrement={handlePageNumDecrement}/>
+                        <SortBtns setSort={setSort} filteredMovies={filteredMovies} moviePage={moviePage}
+                                  setFilteredMovies={setFilteredMovies}/>
                     </>
 
-                ): null
+                ) : null
             }
 
             <Body>
