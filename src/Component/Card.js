@@ -1,23 +1,23 @@
 import React from "react";
 import "./Card.css";
 
-const Card = ({movieData, getNewData, filterLikeList, filterBlockList, page}) => {
+const Card = ({movieData, getNewData, page}) => {
     const picUrl = "http://image.tmdb.org/t/p/w500/";
 
     const likeHandler = (eachData) =>{
+        if (eachData.like ===false){
         eachData.like = true;
         eachData.block = false;
-        getNewData(movieData, "like");
-        filterLikeList();
-        filterBlockList();
+        getNewData(eachData, "like");
+        }
     }
 
     const blockHandler = (eachData) =>{
+        if (eachData.block ===false){
         eachData.block = true;
         eachData.like = false;
-        getNewData(movieData, "block");
-        filterLikeList();
-        filterBlockList();
+        getNewData(eachData, "block");
+        }
     }
 
     return ( <>  

@@ -34,25 +34,41 @@ const App = () => {
     const [blockedMovies, setBlockedMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
 
-
-    const getNewData = (newData, flag) =>{
+    const getNewData = (eachData, flag) =>{
+        // update clicked data in our stored movie data
+        let updatedData = storedMovieData[moviePage-1].results.filter((data)=>{
+            if (data.id === eachData.id) {
+                return eachData
+            } else {
+                return data
+            }
+        })
+        storedMovieData[moviePage-1].results = updatedData;
+        // Update liked or blocked movie list based on flag type
         if (flag === "like") {
-            setLikedMovies(newData);
+            setLikedMovies(likedMovies.concat(eachData));
+            // Update clicked like movie in blocked list
+            let likeItemInBlocked = blockedMovies.filter((data)=> {
+                if (data.id !== eachData.id) {
+                    return data
+                } 
+            })
+            setBlockedMovies(likeItemInBlocked);
         } else if (flag === "block") {
-            setBlockedMovies(newData);
+            setBlockedMovies(blockedMovies.concat(eachData));
+            setFilteredMovies(filteredMovies.concat(eachData));
+            // update cliked block movie in liked list
+            let blockItemInLiked = likedMovies.filter((data)=> {
+                if (data.id !== eachData.id) {
+                    return data
+                } 
+            })
+            setLikedMovies(blockItemInLiked);
         }
-
-        const newList = [];
-        for (let i = 0; i < storedMovieData.length; i++) {
-            storedMovieData[i].results.forEach(data => newList.push(data));
-        }
-
-        setFilteredMovies(newList.filter(data => !data.block));
     }
 
-    const getSortedData = (sortedData) =>{
-        setMovieData(sortedData);
-    }
+    let [sort, setSort] = useState(-1);
+
 
     useEffect(() => {
         if (moviePage <= storedMovieData.length) {
@@ -74,11 +90,11 @@ const App = () => {
                 })
                 setStoredMovieData(storedMovieData.concat(data));
                 setFilteredMovies(data.results);
-                setMovieData(data.results)
-                setTotalPages(data.total_pages)
+                setMovieData(data.results);
+                setTotalPages(data.total_pages);
             })
         } 
-    }, [moviePage]);
+    }, [moviePage, sort]);
 
     const navHandler = (e) => {
         let value = e.target.innerHTML;
@@ -104,14 +120,6 @@ const App = () => {
         setMoviePage(moviePage - 1);
     }
 
-    const filterLikeList = () => {
-        setLikedMovies(movieData.filter(movie => movie.like));
-    }
-
-    const filterBlockList = () => {
-        setBlockedMovies(movieData.filter(movie => movie.block));
-    }
-
     return (
         <Wrapper>
             <Caption value={"Movie View"}/>
@@ -125,34 +133,34 @@ const App = () => {
                 }
             </Nav>
             
-            <Pagination moviePage={moviePage}
+            {
+                page === 1 ? (
+                    <>
+                    <Pagination moviePage={moviePage}
                         totalPage={totalPages}
                         pageIncrement={handlePageNumIncrement}
                         pageDecrement={handlePageNumDecrement}/>
+                    <SortBtns setSort={setSort} filteredMovies={filteredMovies} moviePage={moviePage} setFilteredMovies={setFilteredMovies}/>
+                    </>
 
-            <SortBtns movieData={movieData} getSortedData={getSortedData}/>
+                ): null
+            }
 
-
+      
 
             <Body>
                 {page === -1 ? <HomePage/> :
                     (page === -2 ? <LikedMoviePage
                             movieData={likedMovies}
                             getNewData={getNewData}
-                            filterLikeList={filterLikeList}
-                            filterBlockList={filterBlockList}
                             page={page}/> :
                         (page === -3 ? <BlockedMoviePage
                                 movieData={blockedMovies}
                                 getNewData={getNewData}
-                                filterLikeList={filterLikeList}
-                                filterBlockList={filterBlockList}
                                 page={page}/> :
                             <CardBox
                                 movieData={filteredMovies}
                                 getNewData={getNewData}
-                                filterLikeList={filterLikeList}
-                                filterBlockList={filterBlockList}
                                 page={page}/>))}
 
             </Body>
