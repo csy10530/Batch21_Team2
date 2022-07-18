@@ -49,7 +49,7 @@ const App = () => {
 
         setFilteredMovies(newList.filter(data => !data.block));
     }
-    
+
     useEffect(() => {
         if (moviePage <= storedMovieData.length) {
             setMovieData(storedMovieData[moviePage - 1].results);
@@ -71,10 +71,10 @@ const App = () => {
 
                 setStoredMovieData(storedMovieData.concat(data));
                 setFilteredMovies(data.results);
-                setMovieData(data.results)
-                setTotalPages(data.total_pages)
+                setMovieData(data.results);
+                setTotalPages(data.total_pages);
             })
-        } 
+        }
     }, [moviePage]);
 
     const navHandler = (e) => {
@@ -121,7 +121,7 @@ const App = () => {
                     })
                 }
             </Nav>
-            
+
             <Pagination moviePage={moviePage}
                         totalPage={totalPages}
                         pageIncrement={handlePageNumIncrement}
