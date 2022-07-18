@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from "react";
+import React, {useEffect, useState} from "react";
 import "./App.css";
 
 import Wrapper from "./Container/Wrapper";
@@ -9,7 +9,7 @@ import HomePage from "./Component/HomePage";
 import CardBox from "./Component/CardBox";
 import Body from "./Container/Body";
 
-import {fetchData } from "./Component/FetchData";
+import {fetchData} from "./Component/FetchData";
 import SortBtns from "./Component/SortBtns"
 
 
@@ -27,23 +27,22 @@ const App = () => {
     let [moviePage, setMoviePage] = useState(1);
     let [storedMovieData, setStoredMovieData] = useState([]);
     // // store fetched data to movieData. Each time data fetched, one more object in movieData
-    let [movieData, setMovieData] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
 
     const [likedMovies, setLikedMovies] = useState([]);
     const [blockedMovies, setBlockedMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
 
+
     const getNewData = (eachData, flag) =>{
         // update clicked data in our stored movie data
-        let updatedData = storedMovieData[moviePage-1].results.filter((data)=>{
+        storedMovieData[moviePage-1].results = storedMovieData[moviePage - 1].results.filter((data) => {
             if (data.id === eachData.id) {
                 return eachData
             } else {
                 return data
             }
-        })
-        storedMovieData[moviePage-1].results = updatedData;
+        });
         // Update liked or blocked movie list based on flag type
         if (flag === "like") {
             setLikedMovies(likedMovies.concat(eachData));
@@ -67,9 +66,10 @@ const App = () => {
         }
     }
 
+
+    let [sort, setSort] = useState(-1);
     useEffect(() => {
         if (moviePage <= storedMovieData.length) {
-            setMovieData(storedMovieData[moviePage - 1].results);
             setFilteredMovies(storedMovieData[moviePage - 1].results);
         } else {
             fetchData(moviePage)
@@ -85,14 +85,12 @@ const App = () => {
                     item.block = false;
                     return item;
                 })
-
                 setStoredMovieData(storedMovieData.concat(data));
                 setFilteredMovies(data.results);
-                setMovieData(data.results);
                 setTotalPages(data.total_pages);
             })
-        }
-    }, [moviePage]);
+        } 
+    }, [moviePage, sort]);
 
     const navHandler = (e) => {
         let value = e.target.innerHTML;
@@ -131,12 +129,20 @@ const App = () => {
                 }
             </Nav>
 
-            <Pagination moviePage={moviePage}
+            
+            {
+                page === 1 ? (
+                    <>
+                    <Pagination moviePage={moviePage}
                         totalPage={totalPages}
                         pageIncrement={handlePageNumIncrement}
                         pageDecrement={handlePageNumDecrement}/>
+                    <SortBtns setSort={setSort} filteredMovies={filteredMovies} moviePage={moviePage} setFilteredMovies={setFilteredMovies}/>
+                    </>
 
-            <SortBtns movieData={filteredMovies} />
+                ): null
+            }
+
             <Body>
                 {page === -1 ? <HomePage/> :
                     (page === -2 ? <LikedMoviePage
