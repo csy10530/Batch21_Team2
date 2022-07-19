@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import "./SortBtns.css";
 
+
+
 export default function SortBtns({filteredMovies, moviePage, setSort, setFilteredMovies}) {
     // 1 for true, -1 for false. Control sort order
     let [sortTitle, setSortTitle] = useState(0);
@@ -64,28 +66,28 @@ export default function SortBtns({filteredMovies, moviePage, setSort, setFiltere
             <button className="btn" onClick={handleSortTitle}>
                 Title
                 <span className="material-symbols-outlined"
-                      style={{display: sortTitle === 1 ? "inline" : "none"}}>arrow_upward</span>
+                      style={{display: sortTitle === 1 ? "inline" :"none", 'background-color' : '#DBA506'}}>arrow_upward</span>
                 <span className="material-symbols-outlined"
-                      style={{display: sortTitle === -1 ? "inline" : "none"}}>arrow_downward</span>
+                      style={{display: sortTitle === -1 ? "inline" : "none", 'background-color' : '#DBA506'}}>arrow_downward</span>
             </button>
             <button className="btn" onClick={handleSortVoteC}>
                 Vote Count
                 <span className="material-symbols-outlined"
-                      style={{display: sortVoteC === 1 ? "inline" : "none"}}>arrow_upward</span>
+                      style={{display: sortVoteC === 1 ? "inline" : "none", 'background-color' : '#DBA506'}}>arrow_upward</span>
                 <span className="material-symbols-outlined"
-                      style={{display: sortVoteC === -1 ? "inline" : "none"}}>arrow_downward</span>
+                      style={{display: sortVoteC === -1 ? "inline" : "none",'background-color' : '#DBA506'}}>arrow_downward</span>
             </button>
             <button className="btn" onClick={handleSortVoteA}>Vote Average
                 <span className="material-symbols-outlined"
-                      style={{display: sortVoteA === 1 ? "inline" : "none"}}>arrow_upward</span>
+                      style={{display: sortVoteA === 1 ? "inline" : "none",'background-color' : '#DBA506'}}>arrow_upward</span>
                 <span className="material-symbols-outlined"
-                      style={{display: sortVoteA === -1 ? "inline" : "none"}}>arrow_downward</span>
+                      style={{display: sortVoteA === -1 ? "inline" : "none",'background-color' : '#DBA506'}}>arrow_downward</span>
             </button>
             <button className="btn" onClick={handleSortReleaseD}>Release Date
                 <span className="material-symbols-outlined"
-                      style={{display: sortReleaseD === 1 ? "inline" : "none"}}>arrow_upward</span>
+                      style={{display: sortReleaseD === 1 ? "inline" : "none",'background-color' : '#DBA506'}}>arrow_upward</span>
                 <span className="material-symbols-outlined"
-                      style={{display: sortReleaseD === -1 ? "inline" : "none"}}>arrow_downward</span>
+                      style={{display: sortReleaseD === -1 ? "inline" : "none",'background-color' : '#DBA506'}}>arrow_downward</span>
             </button>
         </div>
     )
